@@ -1,15 +1,591 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oumrani Yacine | Web Developer & Stock Analyst</title>
-    <meta name="description" content="Professional portfolio of Oumrani Yacine, a Full-Stack Web Developer, Designer, and Stock Analyst with a Master's in IT Networks." />
-    <meta name="keywords" content="Oumrani Yacine, Web Developer, Web Designer, Stock Analyst, IT Networks, Portfolio" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+    <meta name="description" content="Professional portfolio of Oumrani Yacine, a Full-Stack Web Developer, Designer, and Stock Analyst with a Master's in IT Networks.">
+    <meta name="keywords" content="Oumrani Yacine, Web Developer, Web Designer, Stock Analyst, IT Networks, Portfolio">
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- AOS (Animate On Scroll) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-white text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100;
+            }
+        }
+        @layer components {
+            .section-container {
+                @apply mx-auto max-w-7xl px-6 py-24 sm:px-8 lg:px-12;
+            }
+            .glass-card {
+                @apply rounded-2xl border border-slate-200 bg-white/50 p-6 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/50;
+            }
+            .btn-primary {
+                @apply inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-medium text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/25 active:scale-95;
+            }
+            .btn-secondary {
+                @apply inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-6 py-3 font-medium text-slate-900 transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-0 z-50 w-full transition-all duration-300 py-6">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-12">
+            <a href="#" class="font-display text-xl font-bold tracking-tighter">
+                OY<span class="text-primary">.</span>
+            </a>
 
+            <!-- Desktop Nav -->
+            <div class="hidden items-center space-x-8 md:flex">
+                <a href="#about" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">About</a>
+                <a href="#skills" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">Skills</a>
+                <a href="#projects" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">Projects</a>
+                <a href="#services" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">Services</a>
+                <a href="#analysis" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">Analysis</a>
+                <a href="#contact" class="text-sm font-medium text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-white">Contact</a>
+                <button id="theme-toggle" class="rounded-full p-2 text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+                    <i data-lucide="moon" class="dark:hidden"></i>
+                    <i data-lucide="sun" class="hidden dark:block"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <div class="flex items-center space-x-4 md:hidden">
+                <button id="theme-toggle-mobile" class="rounded-full p-2 text-slate-600 dark:text-slate-400">
+                    <i data-lucide="moon" class="dark:hidden"></i>
+                    <i data-lucide="sun" class="hidden dark:block"></i>
+                </button>
+                <button id="menu-toggle" class="text-slate-600 dark:text-slate-400">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
+            <div class="flex flex-col space-y-4 px-6 py-8">
+                <a href="#about" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">About</a>
+                <a href="#skills" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">Skills</a>
+                <a href="#projects" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">Projects</a>
+                <a href="#services" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">Services</a>
+                <a href="#analysis" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">Analysis</a>
+                <a href="#contact" class="mobile-link text-lg font-medium text-slate-600 dark:text-slate-400">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative flex min-h-screen items-center justify-center overflow-hidden pt-20">
+            <div class="absolute top-1/4 -left-20 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
+            <div class="absolute bottom-1/4 -right-20 h-96 w-96 rounded-full bg-secondary/10 blur-3xl"></div>
+
+            <div class="section-container relative z-10 text-center" data-aos="fade-up">
+                <span class="mb-4 inline-block rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-primary dark:bg-blue-900/30">
+                    Available for new projects
+                </span>
+                <h1 class="font-display mb-6 text-5xl font-bold tracking-tight sm:text-7xl">
+                    Hi, I'm <span class="text-primary">Oumrani Yacine</span>
+                </h1>
+                <p class="mx-auto mb-10 max-w-2xl text-lg text-slate-600 dark:text-slate-400 sm:text-xl">
+                    Building high-performance web applications and providing data-driven market insights.
+                </p>
+
+                <div class="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+                    <a href="#projects" class="btn-primary w-full sm:w-auto">
+                        View My Work <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
+                    </a>
+                    <button class="btn-secondary w-full sm:w-auto">
+                        <i data-lucide="download" class="mr-2 w-5 h-5"></i> Download CV
+                    </button>
+                </div>
+
+                <div class="mt-12 flex justify-center space-x-6 text-slate-400">
+                    <a href="#" class="transition-colors hover:text-primary"><i data-lucide="github"></i></a>
+                    <a href="#" class="transition-colors hover:text-primary"><i data-lucide="linkedin"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="bg-slate-50 py-24 dark:bg-slate-900/50">
+            <div class="section-container">
+                <div class="grid gap-16 lg:grid-cols-2">
+                    <div data-aos="fade-right">
+                        <h2 class="font-display mb-6 text-3xl font-bold sm:text-4xl">About Me</h2>
+                        <p class="mb-6 text-lg leading-relaxed text-slate-600 dark:text-slate-400">
+                            I am a dedicated Full-Stack Developer and Stock Analyst with a Master's degree in IT Networks and Distributed Systems. My unique blend of technical expertise in networking and software development, combined with analytical skills in financial markets, allows me to build robust, data-centric solutions.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="glass-card">
+                                <h3 class="text-2xl font-bold text-primary">Master's</h3>
+                                <p class="text-sm text-slate-500">IT Networks & Distributed Systems</p>
+                            </div>
+                            <div class="glass-card">
+                                <h3 class="text-2xl font-bold text-secondary">Freelance</h3>
+                                <p class="text-sm text-slate-500">Full-Stack Development</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-aos="fade-left" class="space-y-8">
+                        <h2 class="font-display text-3xl font-bold sm:text-4xl">What I Do</h2>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div class="glass-card flex flex-col items-start">
+                                <div class="mb-4 rounded-xl bg-blue-50 p-3 text-primary dark:bg-blue-900/20">
+                                    <i data-lucide="code"></i>
+                                </div>
+                                <h4 class="mb-2 font-bold">Web Development</h4>
+                                <p class="text-sm text-slate-500">Custom full-stack applications built with modern technologies.</p>
+                            </div>
+                            <div class="glass-card flex flex-col items-start">
+                                <div class="mb-4 rounded-xl bg-blue-50 p-3 text-primary dark:bg-blue-900/20">
+                                    <i data-lucide="palette"></i>
+                                </div>
+                                <h4 class="mb-2 font-bold">UI/UX Design</h4>
+                                <p class="text-sm text-slate-500">User-centric designs that are visually stunning and intuitive.</p>
+                            </div>
+                            <div class="glass-card flex flex-col items-start">
+                                <div class="mb-4 rounded-xl bg-blue-50 p-3 text-primary dark:bg-blue-900/20">
+                                    <i data-lucide="trending-up"></i>
+                                </div>
+                                <h4 class="mb-2 font-bold">Stock Analysis</h4>
+                                <p class="text-sm text-slate-500">In-depth market analysis and data-driven insights.</p>
+                            </div>
+                            <div class="glass-card flex flex-col items-start">
+                                <div class="mb-4 rounded-xl bg-blue-50 p-3 text-primary dark:bg-blue-900/20">
+                                    <i data-lucide="network"></i>
+                                </div>
+                                <h4 class="mb-2 font-bold">Network Solutions</h4>
+                                <p class="text-sm text-slate-500">Designing and implementing secure network architectures.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-24">
+            <div class="section-container">
+                <div class="mb-16 text-center" data-aos="fade-up">
+                    <h2 class="font-display mb-4 text-3xl font-bold sm:text-4xl">Technical Expertise</h2>
+                    <p class="mx-auto max-w-2xl text-slate-600 dark:text-slate-400">
+                        A diverse skill set ranging from low-level networking to high-level web architecture and financial analysis.
+                    </p>
+                </div>
+
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
+                        <h3 class="mb-6 font-display text-xl font-bold text-primary">Web Development</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">React</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">TypeScript</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Node.js</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Tailwind</span>
+                        </div>
+                    </div>
+                    <div class="glass-card" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="mb-6 font-display text-xl font-bold text-primary">UI/UX Design</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Figma</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">UI Principles</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Responsive</span>
+                        </div>
+                    </div>
+                    <div class="glass-card" data-aos="fade-up" data-aos-delay="300">
+                        <h3 class="mb-6 font-display text-xl font-bold text-primary">Networking</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Security</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Distributed</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Cloud</span>
+                        </div>
+                    </div>
+                    <div class="glass-card" data-aos="fade-up" data-aos-delay="400">
+                        <h3 class="mb-6 font-display text-xl font-bold text-primary">Stock Analysis</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Technical</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Fundamental</span>
+                            <span class="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">Risk Mgmt</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="bg-slate-50 py-24 dark:bg-slate-900/50">
+            <div class="section-container">
+                <div class="mb-16 flex flex-col items-center justify-between gap-4 md:flex-row md:items-end" data-aos="fade-up">
+                    <div class="text-center md:text-left">
+                        <h2 class="font-display mb-4 text-3xl font-bold sm:text-4xl">Featured Projects</h2>
+                        <p class="max-w-xl text-slate-600 dark:text-slate-400">
+                            A selection of my recent work in web development and data visualization.
+                        </p>
+                    </div>
+                    <a href="#" class="btn-secondary">View All Projects</a>
+                </div>
+
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <!-- Project 1 -->
+                    <div class="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:shadow-xl dark:border-slate-800 dark:bg-slate-900" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="relative aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/shop/600/400" alt="E-Commerce" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 transition-opacity group-hover:opacity-100">
+                                <div class="flex space-x-4">
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="external-link"></i></a>
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-3 flex flex-wrap gap-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">React</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">Node.js</span>
+                            </div>
+                            <h3 class="mb-2 text-xl font-bold">E-Commerce Platform</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">A full-featured online store with real-time inventory and secure payments.</p>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:shadow-xl dark:border-slate-800 dark:bg-slate-900" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="relative aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/chart/600/400" alt="Dashboard" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 transition-opacity group-hover:opacity-100">
+                                <div class="flex space-x-4">
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="external-link"></i></a>
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-3 flex flex-wrap gap-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">TypeScript</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">D3.js</span>
+                            </div>
+                            <h3 class="mb-2 text-xl font-bold">Market Insight Dashboard</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">Real-time stock tracking and technical analysis tool for traders.</p>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="group overflow-hidden rounded-2xl border border-slate-200 bg-white transition-all hover:shadow-xl dark:border-slate-800 dark:bg-slate-900" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="relative aspect-video overflow-hidden">
+                            <img src="https://picsum.photos/seed/network/600/400" alt="Network" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" referrerPolicy="no-referrer">
+                            <div class="absolute inset-0 flex items-center justify-center bg-slate-900/60 opacity-0 transition-opacity group-hover:opacity-100">
+                                <div class="flex space-x-4">
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="external-link"></i></a>
+                                    <a href="#" class="rounded-full bg-white p-3 text-slate-900 hover:bg-primary hover:text-white"><i data-lucide="github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-3 flex flex-wrap gap-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">Go</span>
+                                <span class="text-xs font-semibold uppercase tracking-wider text-primary">Docker</span>
+                            </div>
+                            <h3 class="mb-2 text-xl font-bold">Network Monitor Tool</h3>
+                            <p class="text-sm text-slate-500 dark:text-slate-400">A distributed system monitoring tool for tracking server health.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stock Analysis Section -->
+        <section id="analysis" class="py-24">
+            <div class="section-container">
+                <div class="grid gap-16 lg:grid-cols-2">
+                    <div data-aos="fade-right">
+                        <h2 class="font-display mb-6 text-3xl font-bold sm:text-4xl">Stock Analysis Approach</h2>
+                        <p class="mb-6 text-lg text-slate-600 dark:text-slate-400">
+                            My approach to market analysis combines fundamental research with advanced technical indicators. I leverage my background in distributed systems to process large datasets and identify emerging trends.
+                        </p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-slate-700 dark:text-slate-300">
+                                <div class="mr-3 h-2 w-2 rounded-full bg-primary"></div>
+                                Technical Analysis & Pattern Recognition
+                            </li>
+                            <li class="flex items-center text-slate-700 dark:text-slate-300">
+                                <div class="mr-3 h-2 w-2 rounded-full bg-primary"></div>
+                                Fundamental Company Evaluation
+                            </li>
+                            <li class="flex items-center text-slate-700 dark:text-slate-300">
+                                <div class="mr-3 h-2 w-2 rounded-full bg-primary"></div>
+                                Risk Management & Portfolio Optimization
+                            </li>
+                            <li class="flex items-center text-slate-700 dark:text-slate-300">
+                                <div class="mr-3 h-2 w-2 rounded-full bg-primary"></div>
+                                Data-Driven Market Insights
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="glass-card h-[400px] w-full" data-aos="fade-left">
+                        <h3 class="mb-6 font-bold">Sample Market Performance</h3>
+                        <canvas id="stockChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="bg-slate-50 py-24 dark:bg-slate-900/50">
+            <div class="section-container">
+                <div class="mb-16 text-center" data-aos="fade-up">
+                    <h2 class="font-display mb-4 text-3xl font-bold sm:text-4xl">Testimonials</h2>
+                    <p class="text-slate-600 dark:text-slate-400">What colleagues and clients say about my work.</p>
+                </div>
+
+                <div class="grid gap-8 md:grid-cols-2">
+                    <div class="glass-card relative" data-aos="fade-up" data-aos-delay="100">
+                        <i data-lucide="quote" class="absolute top-6 right-6 text-primary/10 w-12 h-12"></i>
+                        <p class="mb-6 italic text-slate-600 dark:text-slate-400">"Yacine's ability to bridge the gap between complex network architectures and user-friendly web interfaces is truly impressive."</p>
+                        <div>
+                            <h4 class="font-bold">Tech Lead</h4>
+                            <p class="text-sm text-slate-500">Digital Solutions Inc.</p>
+                        </div>
+                    </div>
+                    <div class="glass-card relative" data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="quote" class="absolute top-6 right-6 text-primary/10 w-12 h-12"></i>
+                        <p class="mb-6 italic text-slate-600 dark:text-slate-400">"His stock analysis insights provided our team with a fresh perspective on market volatility. Highly analytical and technical."</p>
+                        <div>
+                            <h4 class="font-bold">Senior Analyst</h4>
+                            <p class="text-sm text-slate-500">FinTech Partners</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24">
+            <div class="section-container">
+                <div class="mb-16 text-center" data-aos="fade-up">
+                    <h2 class="font-display mb-4 text-3xl font-bold sm:text-4xl">Get In Touch</h2>
+                    <p class="mx-auto max-w-2xl text-slate-600 dark:text-slate-400">
+                        Have a project in mind or want to discuss market trends? I'm always open to new opportunities.
+                    </p>
+                </div>
+
+                <div class="grid gap-12 lg:grid-cols-3">
+                    <div class="space-y-8" data-aos="fade-right">
+                        <div class="flex items-start space-x-4">
+                            <div class="rounded-xl bg-blue-50 p-3 text-primary dark:bg-blue-900/20">
+                                <i data-lucide="mail"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Email</h4>
+                                <p class="text-slate-500">oumraniyacine1@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="rounded-xl bg-green-50 p-3 text-secondary dark:bg-green-900/20">
+                                <i data-lucide="linkedin"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">LinkedIn</h4>
+                                <p class="text-slate-500">linkedin.com/in/oumraniyacine</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="rounded-xl bg-orange-50 p-3 text-accent dark:bg-orange-900/20">
+                                <i data-lucide="github"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">GitHub</h4>
+                                <p class="text-slate-500">github.com/oumraniyacine</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="glass-card space-y-4 lg:col-span-2" data-aos="fade-left" onsubmit="event.preventDefault(); alert('Message sent! (Demo only)');">
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Name</label>
+                                <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-950" placeholder="Your Name">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium">Email</label>
+                                <input type="email" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-950" placeholder="your@email.com">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Subject</label>
+                            <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-950" placeholder="How can I help?">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium">Message</label>
+                            <textarea rows="4" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/20 dark:border-slate-800 dark:bg-slate-950" placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full">
+                            Send Message <i data-lucide="send" class="ml-2 w-5 h-5"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-12 dark:border-slate-800">
+        <div class="section-container flex flex-col items-center justify-between gap-6 md:flex-row">
+            <p class="text-sm text-slate-500">
+                © <span id="year"></span> Oumrani Yacine. All rights reserved.
+            </p>
+            <div class="flex space-x-6 text-sm font-medium text-slate-600 dark:text-slate-400">
+                <a href="#" class="hover:text-primary">Privacy Policy</a>
+                <a href="#" class="hover:text-primary">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const html = document.documentElement;
+
+        function toggleTheme() {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+
+        // Check for saved theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
+        }
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('bg-white/80', 'shadow-sm', 'backdrop-blur-md', 'dark:bg-slate-950/80');
+                navbar.classList.remove('py-6');
+                navbar.classList.add('py-4');
+            } else {
+                navbar.classList.remove('bg-white/80', 'shadow-sm', 'backdrop-blur-md', 'dark:bg-slate-950/80');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Chart.js Implementation
+        const ctx = document.getElementById('stockChart').getContext('2d');
+        const stockChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Market Performance',
+                    data: [150, 165, 160, 180, 195, 210],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#3b82f6'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        padding: 12,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(148, 163, 184, 0.1)' },
+                        ticks: { 
+                            color: '#94a3b8',
+                            callback: (value) => `$${value}`
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
